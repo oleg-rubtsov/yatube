@@ -3,7 +3,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django import forms
 import datetime as dt
-from posts.models import Group, Post, Follow
+from posts.models import Group, Post
 import shutil
 import tempfile
 from django.conf import settings

@@ -141,6 +141,7 @@ def profile_follow(request, username):
 
     return redirect('profile', username=username)
 
+
 @login_required
 def profile_unfollow(request, username):
     author = get_object_or_404(User, username=username)

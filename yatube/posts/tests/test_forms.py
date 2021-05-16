@@ -75,7 +75,6 @@ class PostFormTests(TestCase):
         self.assertEqual(post.author.username, 'Oleg3')
         self.assertEqual(post.text, 'Текст из формы')
         self.assertEqual(post.group.title, 'Жора')
-        # self.assertTrue(Post.objects.filter(text='Текст из формы', image='posts/small.gif'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_authorized_can_edit_post(self):
