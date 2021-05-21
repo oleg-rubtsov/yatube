@@ -3,37 +3,16 @@
 <main role="main" class="container">
     <div class="row">
       <div class="col-md-3 mb-3 mt-1">
-        <div class="card">
-          <div class="card-body">
-            <div class="h2">
-            {{ post.author.first_name }} {{ post.author.last_name }}
-            </div>
-            <div class="h3 text-muted">
-            @{{ post.author }}
-            </div>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <div class="h6 text-muted">
-                Подписчиков: XXX <br />
-                Подписан: XXX
-              </div>
-            </li>
-            <li class="list-group-item">
-              <div class="h6 text-muted">
-                Записей: {{ count }}
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
+        {% include "includes/profile_main.html" with profile=author count=count %}
+      
       <div class="col-md-9">
       <!-- Пост -->
       
         
-          {% include "post_item.html" with post=post %}
+          {% include "includes/post_item.html" with post=post %}
       
-      {% include "comments.html" with form=form comments=comments %}
+      {% include "includes/comments.html" with form=form comments=comments %}
     </div>
+  </div>
   </main>
   {% endblock %}

@@ -4,14 +4,14 @@
 <main role="main" class="container">
     <div class="row">
       <div class="col-md-3 mb-3 mt-1">
-        {% include "profile_main.html" with profile=profile count=count %}
+        {% include "includes/profile_main.html" with profile=profile count=count %}
   
        <div class="col-md-9">
          
        {% for post in page %}
-       {% include "post_item.html" with post=post following=following follow_to_yourself=follow_to_yourself %}
+       {% include "includes/post_item.html" with post=post following=following follow_to_yourself=follow_to_yourself %}
           {% endfor %}
-          {% include "paginator.html" %}
+          {% include "includes/paginator.html" %}
        </div>
     </div>
   </main>
