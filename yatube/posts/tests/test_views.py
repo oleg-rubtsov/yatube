@@ -3,7 +3,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django import forms
 import datetime as dt
-from posts.models import Group, Post
+from posts.models import Group, Post, Follow
 import shutil
 import tempfile
 from django.conf import settings
@@ -311,22 +311,29 @@ class FollowTests(TestCase):
         """Тест для проверки, что авторизованный пользователь может
         подписываться на других пользователей
         """
-        self.authorized_client.get(
-            reverse('profile_follow', kwargs={'username': FollowTests.user2}))
+        person = User.objects.create_user(username='Alex')
         response = self.authorized_client.get(
-            reverse('profile', kwargs={'username': FollowTests.user1}))
-        self.assertEqual(response.context["following"], False)
+            reverse('profile_follow', kwargs={'username': person}))
+        count = Follow.objects.count()
+        follow = Follow.objects.first()
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(count, 1)
+        self.assertEqual(follow.user.username, 'Oleg1')
+        self.assertEqual(follow.author.username, 'Alex')
 
     def test_authorized_can_unfollow(self):
         """Тест для проверки, что авторизованный пользователь может
         удалять других пользователей из подписок
         """
-        self.authorized_client.get(reverse('profile_unfollow',
-                                           kwargs={'username':
-                                                   FollowTests.user2}))
-        response = self.authorized_client.get(
-            reverse('profile', kwargs={'username': FollowTests.user1}))
-        self.assertEqual(response.context["following"], 0)
+        person = User.objects.create_user(username='Alex2')
+        Follow.objects.create(user=FollowTests.user1, author=person)
+        count1 = Follow.objects.count()
+        response = self.authorized_client.get(reverse('profile_unfollow',
+                                                      kwargs={'username':
+                                                              person}))
+        count2 = Follow.objects.count()
+        self.assertNotEqual(count1, count2)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_anonymous_cannot_comment(self):
         """Тест для проверки что, анонимный пользователь
@@ -358,4 +365,4 @@ class FollowTests(TestCase):
         не появляется в ленте тех, кто на него не подписан
         """
         response = self.authorized_client.get(reverse('follow_index'))
-        self.assertEqual(len(response.context.get('page').object_list), 0)
+        self.assertEqual(response.context.get('page').object_list.count(), 0)

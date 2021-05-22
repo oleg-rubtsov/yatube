@@ -10,7 +10,7 @@ User = get_user_model()
 
 
 def index(request):
-    post_list = Post.objects.all().order_by('-pub_date')
+    post_list = Post.objects.all()
     paginator = Paginator(post_list, 10)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
@@ -53,7 +53,7 @@ def profile(request, username):
     page = paginator.get_page(page_number)
     following = request.user.is_authenticated and Follow.objects.filter(
         user=request.user,
-        author=profile)
+        author=profile).exists()
     return render(request,
                   'profile.html',
                   {'profile': profile, "page": page, "count": count,
