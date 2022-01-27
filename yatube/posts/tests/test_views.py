@@ -109,7 +109,7 @@ class ViewsTests(TestCase):
         task_author_0 = first_object.author.username
         task_image_0 = first_object.image.name
         time = dt.datetime.today().replace(second=0, microsecond=0)
-        # __import__('pdb').set_trace()
+        #__import__('pdb').set_trace()
         self.assertEqual(task_image_0, 'posts/small.gif')
         self.assertEqual(task_text_0, 'Хорошая жизнь')
         self.assertEqual(task_pub_date_0, time)
