@@ -22,3 +22,8 @@ python3 manage.py migrate
 ```sh
 python3 manage.py runserver
 ```
+# Created by:
+
+Oleg Rubtsov  
+oleg.rubtsov99@gmail.com  
++7(925)669-06-11  
